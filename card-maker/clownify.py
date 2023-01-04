@@ -18,4 +18,4 @@ if __name__ == '__main__':
         # Save card+art
         Path("output/finished_cards").mkdir(exist_ok = True)
         Path("output/finished_cards/clown").mkdir(exist_ok = True)
-        opened_card.save(f"output/finished_cards/clown/{card.name}.png")
+        opened_card.save(f"output/finished_cards/clown/{card.name}")
