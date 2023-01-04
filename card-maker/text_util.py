@@ -97,16 +97,6 @@ def draw_text_to_box(bounds_dict: dict, key: str, text: str, card_image: Image, 
             draw_text(card_image, text_x_1 + x_offset, text_y_1 + y_offset, text, final_font_y, alt_color, "#000000", int(final_font_y * 0.095))
 
 
-"""
-This can be improved. My thesis:
-1. Start with a base font size that is used if possible.
-2. Add words to the string until font.getlength() is larger than the max width. Move to the next line.
-3. If every line is used and additional space is needed, restart with a smaller font size.
-
-In this way, the font size will stay consistent most of the time, while still being able to accommodate longer text sections.
-"""
-
-
 def draw_paragraph(bounds_dict: dict, key: str, text: str, max_lines: int, card_image: Image, centered = False, border = False):
     """
     Draws text to fit a bounding box, using the maximum possible size with no border.
