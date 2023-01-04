@@ -1,0 +1,23 @@
+{
+  "Aq": {
+    "short": "Aquatic",
+    "color": "#1da2d8"
+  },
+  "Ar": {
+    "short": "Arid",
+    "color": "#f4b18c"
+  },
+  "Fo": {
+    "short": "Forested",
+    "color": "#2d9e30"
+  },
+  "Fr": {
+    "short": "Frigid",
+    "color": "#b9defc"
+  },
+  "U": {
+    "short": "Underground",
+    "color": "#7c9487"
+  }
+}
+
