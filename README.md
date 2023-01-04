@@ -8,9 +8,9 @@ complete). AKA `Ecosphere | SD | PIL`.
 Run the program with one of the following commands, executed from within the activated virtual environment in the base
 directory containing the `README.md`.
 
-- `python card_maker/make_stats.py`: Only write card stats. Outputs to `output/finished_cards/stats/`.
-- `python card_maker/make_art.py`: Only write card art. Outputs to `output/finished_cards/art/`.
-- `python card_maker/make_both.py`: Write card stats and art. Outputs to `output/finished_cards/art_and_stats/`.
+- `python card-maker/make_stats.py`: Only write card stats. Outputs to `output/finished_cards/stats/`.
+- `python card-maker/make_art.py`: Only write card art. Outputs to `output/finished_cards/art/`.
+- `python card-maker/make_both.py`: Write card stats and art. Outputs to `output/finished_cards/art_and_stats/`.
 
 ### Card Stats
 
