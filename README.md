@@ -15,8 +15,9 @@ directory containing the `README.md`.
 ### Card Stats
 
 Card stats are read from the CSV file `assets_data/card_database.csv`. This file is the exact same as Neo's official
-Card Database Google Sheets document, except I've added an Art Description column after Text. This columns contains part
-of the prompt used in image generation.
+Card Database Google Sheets document, except I've added an Art Description column after Text. This column contains part
+of the prompt used in image generation (additional prompt is added in the program). This column is incomplete, only
+having data for 12 cards.
 
 ### Image Generation
 
