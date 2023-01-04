@@ -7,6 +7,9 @@ A Python program that writes card stats to the blank card image.
 Run the program with `python card-maker/make_stats.py`, executed from within the activated virtual environment in the
 base directory containing the `README.md`. This command will write card stats to `output/finished_cards/stats/`.
 
+To clownify, run normally as above, then run `python card-maker/clownify.py`. Output will be
+in `output/finished_cards/clown/`.
+
 ### Card Stats
 
 Card stats are read from the CSV file `assets_data/card_database.csv`. This file is the exact same as Neo's official
