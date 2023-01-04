@@ -10,6 +10,7 @@ font_name = 'arial.ttf'
 def draw_text(image: Image, x: int, y: int, text: str, size: int, fill_color: str, border_color: str | None, border_offset: int):
     """
     Draws text onto an Image, with optional border
+
     :param image: The Image object
     :param x: Horizontal location
     :param y: Vertical location
@@ -46,9 +47,46 @@ def draw_text(image: Image, x: int, y: int, text: str, size: int, fill_color: st
     draw.text((x, y), text, font = font, fill = fill_color)
 
 
+def draw_header_text(bounds_dict: dict, key: str, text: str, card_image: Image):
+    """
+    Draws text to fit a bounding box. Starting font size, margins, and padding are
+    normalized for the header (name/type).
+
+    :param bounds_dict: THe dictionary of bounding boxes
+    :param key: The element you're writing in, as the key in bounds_dict
+    :param text: The text string to write
+    :param card_image: The Image object (loaded in PIL)
+    """
+    # Get text bounds
+    text_x_1 = bounds_dict[key]["1"]["x"]
+    text_x_2 = bounds_dict[key]["2"]["x"]
+
+    text_y_1 = bounds_dict[key]["1"]["y"]
+    text_y_2 = bounds_dict[key]["2"]["y"]
+
+    delta_x = text_x_2 - text_x_1
+    delta_y = text_y_2 - text_y_1
+
+    margin_font_size = 48
+    margin_offset = 26
+    max_length = int(delta_x - (margin_offset * 2))
+
+    # Decrease font size from the max vertical until it fits horizontally
+    font: ImageFont = ImageFont.truetype(font = os.path.join(fonts_dir, font_name), size = margin_font_size)
+    while font.getlength(text) > max_length:
+        margin_font_size -= 1
+        font: ImageFont = ImageFont.truetype(font = os.path.join(fonts_dir, font_name), size = margin_font_size)
+
+    # Center vertically
+    y_offset = int((delta_y - margin_font_size) * 0.5)
+
+    draw_text(card_image, text_x_1 + margin_offset, text_y_1 + y_offset, text, margin_font_size, "#000000", None, 0)
+
+
 def draw_text_to_box(bounds_dict: dict, key: str, text: str, card_image: Image, centered = False, border = False, alt_color = None):
     """
     Draws text to fit a bounding box, using the maximum possible size with no border.
+
     :param bounds_dict: THe dictionary of bounding boxes
     :param key: The element you're writing in, as the key in bounds_dict
     :param text: The text string to write

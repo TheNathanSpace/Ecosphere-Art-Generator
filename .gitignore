@@ -2,3 +2,4 @@
 venv
 stable-diffusion-main/models/ldm/stable-diffusion-v1
 output
+__pycache__

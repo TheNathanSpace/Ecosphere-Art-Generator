@@ -1,9 +1,13 @@
 import csv
+import os
 from pathlib import Path
 
 from PIL import Image
 
 import text_util
+
+fonts_dir = os.path.join(os.environ['WINDIR'], 'Fonts')
+font_name = 'arial.ttf'
 
 
 def load_cards():
@@ -43,10 +47,10 @@ class Card:
         self.art_description = art_description
 
     def write_stats(self, bounds_dict: dict, card_image: Image, alignments: dict):
-        text_util.draw_text_to_box(bounds_dict = bounds_dict, key = "name", text = self.name, card_image = card_image)
+        text_util.draw_header_text(bounds_dict = bounds_dict, key = "name", text = self.name, card_image = card_image)
         if self.short_alignment != "":
             text_util.draw_text_to_box(bounds_dict = bounds_dict, key = "alignment", text = self.short_alignment, card_image = card_image, centered = True, border = True, alt_color = alignments[self.short_alignment]["color"])
-        text_util.draw_text_to_box(bounds_dict = bounds_dict, key = "type", text = self.type, card_image = card_image)
+        text_util.draw_header_text(bounds_dict = bounds_dict, key = "type", text = self.type, card_image = card_image)
         text_util.draw_text_to_box(bounds_dict = bounds_dict, key = "tier", text = str(self.tier), card_image = card_image, centered = True)
         text_util.draw_text_to_box(bounds_dict = bounds_dict, key = "cost", text = str(self.cost), card_image = card_image, centered = True)
         text_util.draw_text_to_box(bounds_dict = bounds_dict, key = "power", text = str(self.power), card_image = card_image, centered = True)
