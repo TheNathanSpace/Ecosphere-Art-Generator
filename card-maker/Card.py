@@ -29,9 +29,9 @@ def load_cards():
 class Card:
 
     def __init__(self, traits: list):
-        self.set_traits(traits[0], traits[1], traits[2], traits[3], traits[4], traits[5], traits[6], traits[7], traits[8])
+        self.set_traits(traits[0], traits[1], traits[2], traits[3], traits[4], traits[5], traits[6], traits[7])
 
-    def set_traits(self, name: str, short_alignment: str, the_type: str, tier: int, cost: int, power: int, health_duration: int, text: str, art_description: str):
+    def set_traits(self, name: str, short_alignment: str, the_type: str, tier: int, cost: int, power: int, health_duration: int, text: str):
         """
         Helper constructor method for initializing from CSV database file
         """
@@ -44,7 +44,6 @@ class Card:
         self.health_duration = health_duration
         self.text = text
         self.rarity = None
-        self.art_description = art_description
 
     def write_stats(self, bounds_dict: dict, card_image: Image, alignments: dict):
         text_util.draw_header_text(bounds_dict = bounds_dict, key = "name", text = self.name, card_image = card_image)

@@ -1,6 +1,6 @@
 .idea/
 venv
-stable-diffusion-main/models/ldm/stable-diffusion-v1
+venv_juststats
 output
 __pycache__
 card-maker/__pycache__
