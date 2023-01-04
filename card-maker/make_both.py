@@ -2,7 +2,8 @@ import json
 from pathlib import Path
 
 import Card
-from card_maker import make_stats, make_art
+import make_art
+import make_stats
 
 
 def do_both(cards: list, alignments: dict, bounds_dict: dict):

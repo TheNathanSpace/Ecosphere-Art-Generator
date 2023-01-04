@@ -1,11 +1,7 @@
-# Initialize font
 import os
 
 from PIL import ImageDraw, ImageFont
 from PIL.Image import Image
-
-# Arial font
-from PADS import Wrap
 
 fonts_dir = os.path.join(os.environ['WINDIR'], 'Fonts')
 font_name = 'arial.ttf'
@@ -101,6 +97,16 @@ def draw_text_to_box(bounds_dict: dict, key: str, text: str, card_image: Image, 
             draw_text(card_image, text_x_1 + x_offset, text_y_1 + y_offset, text, final_font_y, alt_color, "#000000", int(final_font_y * 0.095))
 
 
+"""
+This can be improved. My thesis:
+1. Start with a base font size that is used if possible.
+2. Add words to the string until font.getlength() is larger than the max width. Move to the next line.
+3. If every line is used and additional space is needed, restart with a smaller font size.
+
+In this way, the font size will stay consistent most of the time, while still being able to accommodate longer text sections.
+"""
+
+
 def draw_paragraph(bounds_dict: dict, key: str, text: str, max_lines: int, card_image: Image, centered = False, border = False):
     """
     Draws text to fit a bounding box, using the maximum possible size with no border.
@@ -116,8 +122,6 @@ def draw_paragraph(bounds_dict: dict, key: str, text: str, max_lines: int, card_
     if text == "":
         return
 
-    split_lines = Wrap.wrap(text = text, frenchspacing = True, target = 26)
-
     # Calculate name position and draw name
     text_x_1 = bounds_dict[key]["1"]["x"]
     text_x_2 = bounds_dict[key]["2"]["x"]
@@ -128,33 +132,49 @@ def draw_paragraph(bounds_dict: dict, key: str, text: str, max_lines: int, card_
     delta_x = text_x_2 - text_x_1
     delta_y = text_y_2 - text_y_1
 
-    # Divide 80% of vertical space between the lines
-    font_80_y = int(((text_y_2 - text_y_1) * 0.8) / (max_lines + 1))
-    # Every line uses 85% horizontal space
-    font_85_x = int((text_x_2 - text_x_1) * 0.85)
-    final_font_y = font_80_y
+    """
+    The basic algorithm here is:
+    
+    1. Start with a base font size that is always used, if possible.
+    2. Add words to the string until font.getlength() is larger than the max width. Move to the next line.
+    3. If every line is used and additional space is needed, restart the whole process with a smaller font size.
+    
+    In this way, the font size will stay consistent most of the time, while still being able to accommodate longer text sections.
+    It's not super efficient, but you aren't gonna be running this very often.
+    """
+    margins = 26
+    font_size = 36
+    while True:
+        padding = int(font_size * 0.45)
+        font: ImageFont = ImageFont.truetype(font = os.path.join(fonts_dir, font_name), size = font_size)
 
-    font: ImageFont = ImageFont.truetype(font = os.path.join(fonts_dir, font_name), size = final_font_y)
-    while font.getlength(split_lines[0]) > font_85_x:
-        final_font_y -= 1
-        font = ImageFont.truetype(font = os.path.join(fonts_dir, font_name), size = final_font_y)
+        split_lines = []
+        current_line = ""
+        temp_line = ""
+        for word in text.split(" "):
+            temp_line += word
+            # If too long
+            if font.getlength(temp_line) + (margins * 2) > delta_x:
+                split_lines.append(current_line)
+                current_line = word + " "
+                temp_line = current_line
+            else:
+                temp_line += " "
+                current_line = temp_line
+        split_lines.append(current_line)
 
-    # Use space from extra line to pad between lines
-    interline_padding = final_font_y / (max_lines - 1)
+        num_lines = len(split_lines)
+        if num_lines * font_size + (num_lines - 1) * padding + margins * 2 <= delta_y:
+            break
+        else:
+            font_size -= 1
 
-    # Calculate margins
-    y_offset = interline_padding * 2
-    x_offset = y_offset
-
-    if not centered:
-        x_offset = y_offset
-
-    y_point = text_y_1 + y_offset
+    y_point = text_y_1 + margins
     for line in split_lines:
         if not border:
-            draw_text(card_image, text_x_1 + x_offset, y_point, line, final_font_y, "#000000", None, 0)
+            draw_text(card_image, text_x_1 + margins, y_point, line, font_size, "#000000", None, 0)
         else:
-            draw_text(card_image, text_x_1 + x_offset, y_point, line, final_font_y, "#D9D9D9", "#000000", int(final_font_y * 0.095))
+            draw_text(card_image, text_x_1 + margins, y_point, line, font_size, "#D9D9D9", "#000000", int(font_size * 0.095))
 
         # Move down by one font plus padding
-        y_point += final_font_y + interline_padding
+        y_point += font_size + padding

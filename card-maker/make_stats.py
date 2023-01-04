@@ -3,7 +3,7 @@ from pathlib import Path
 
 from PIL import Image
 
-from card_maker import Card
+import Card
 
 
 def do_only_stats(cards: list, alignments: dict, bounds_dict: dict):
