@@ -73,6 +73,7 @@ if __name__ == '__main__':
     alignments = json.loads(Path("assets-data/alignments_map.json").read_text(encoding = "utf8"))
     bounds_dict: dict = json.loads(Path("assets-data/card_bounds.json").read_text(encoding = "utf8"))
 
+    Path("rows_to_export.txt").touch(exist_ok = True)
     chosen_rows = Path("rows_to_export.txt").read_text().replace(" ", "").split(",")
     chosen_rows = [int(x) - 1 for x in chosen_rows]
 
