@@ -10,6 +10,14 @@ base directory containing the `README.md`. This command will write card stats to
 To clownify, run normally as above, then run `python card-maker/clownify.py`. Output will be
 in `output/finished_cards/clown/`.
 
+To only export specific rows, edit `rows_to_export.txt` in the following format:
+
+```
+25, 55, 18, 99, 145, 14848
+```
+
+Rows that don't exist will be ignored. If the file is empty (no characters), it will export all rows.
+
 ### Card Stats
 
 Card stats are read from the CSV file `assets_data/card_database.csv`. This file is the exact same as Neo's official

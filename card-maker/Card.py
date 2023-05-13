@@ -6,7 +6,6 @@ from PIL import Image
 
 import text_util
 
-fonts_dir = os.path.join(os.environ['WINDIR'], 'Fonts')
 font_name = 'arial.ttf'
 
 
@@ -44,6 +43,8 @@ class Card:
         self.health_duration = health_duration
         self.text = text
         self.rarity = None
+
+        self.stats_file_location = f"output/finished_cards/stats/{self.name}.png"
 
     def write_stats(self, bounds_dict: dict, card_image: Image, alignments: dict):
         text_util.draw_header_text(bounds_dict = bounds_dict, key = "name", text = self.name, card_image = card_image)
