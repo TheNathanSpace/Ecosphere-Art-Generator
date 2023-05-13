@@ -3,7 +3,6 @@ import os
 from PIL import ImageDraw, ImageFont
 from PIL.Image import Image
 
-fonts_dir = os.path.join(os.environ['WINDIR'], 'Fonts')
 font_name = 'arial.ttf'
 
 
@@ -22,7 +21,7 @@ def draw_text(image: Image, x: int, y: int, text: str, size: int, fill_color: st
     """
     draw = ImageDraw.Draw(image)
 
-    font: ImageFont = ImageFont.truetype(font = os.path.join(fonts_dir, font_name), size = size)
+    font: ImageFont = ImageFont.truetype(font = font_name, size = size)
 
     if border_color is not None:
         for i in range(0, border_offset):
@@ -72,10 +71,17 @@ def draw_header_text(bounds_dict: dict, key: str, text: str, card_image: Image):
     max_length = int(delta_x - (margin_offset * 2))
 
     # Decrease font size from the max vertical until it fits horizontally
-    font: ImageFont = ImageFont.truetype(font = os.path.join(fonts_dir, font_name), size = margin_font_size)
+    global font_name
+    try:
+        font: ImageFont = ImageFont.truetype(font = font_name, size = margin_font_size)
+    except OSError:
+        # Linux workaround
+        font_name = "FreeSans.ttf"
+        font: ImageFont = ImageFont.truetype(font = font_name, size = margin_font_size)
+
     while font.getlength(text) > max_length:
         margin_font_size -= 1
-        font: ImageFont = ImageFont.truetype(font = os.path.join(fonts_dir, font_name), size = margin_font_size)
+        font: ImageFont = ImageFont.truetype(font = font_name, size = margin_font_size)
 
     # Center vertically
     y_offset = int((delta_y - margin_font_size) * 0.5)
@@ -114,10 +120,10 @@ def draw_text_to_box(bounds_dict: dict, key: str, text: str, card_image: Image, 
     final_font_y = font_80_y
 
     # Decrease font size from the max vertical until it fits horizontally
-    font: ImageFont = ImageFont.truetype(font = os.path.join(fonts_dir, font_name), size = final_font_y)
+    font: ImageFont = ImageFont.truetype(font = font_name, size = final_font_y)
     while font.getlength(text) > font_85_x:
         final_font_y -= 1
-        font: ImageFont = ImageFont.truetype(font = os.path.join(fonts_dir, font_name), size = final_font_y)
+        font: ImageFont = ImageFont.truetype(font = font_name, size = final_font_y)
 
     # Calculate padding
     y_offset = int((delta_y - final_font_y) * 0.5)
@@ -174,7 +180,7 @@ def draw_paragraph(bounds_dict: dict, key: str, text: str, max_lines: int, card_
     font_size = 36
     while True:
         padding = int(font_size * 0.45)
-        font: ImageFont = ImageFont.truetype(font = os.path.join(fonts_dir, font_name), size = font_size)
+        font: ImageFont = ImageFont.truetype(font = font_name, size = font_size)
 
         split_lines = []
         current_line = ""
