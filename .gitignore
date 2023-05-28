@@ -3,6 +3,6 @@ venv
 venv_juststats
 stable-diffusion-main/models/ldm/stable-diffusion-v1
 output
-__pycache__
+**/__pycache__/**
 card-maker/__pycache__
 card-maker/PADS/__pycache__
